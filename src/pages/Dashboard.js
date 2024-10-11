@@ -1,13 +1,47 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { FinanceContext } from '../context/FinanceContext';
 
 const Dashboard = () => {
+  const { finances, setFinances } = useContext(FinanceContext);
+
+  const handleUpdate = (key, value) => {
+    setFinances((prev) => ({ ...prev, [key]: parseFloat(value) }));
+  };
+
   return (
-    <div className="dashboard">
-      <h1>Dashboard</h1>
-      <div className="summary">
-        <h3>Total Income: $5000</h3>
-        <h3>Total Expenses: $3500</h3>
-        <h3>Remaining Budget: $1500</h3>
+    <div>
+      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+      <div className="space-y-4">
+        <div>
+          <label className="block mb-2">Income:</label>
+          <input
+            type="number"
+            value={finances.income}
+            onChange={(e) => handleUpdate('income', e.target.value)}
+            className="border rounded p-2 w-full"
+          />
+        </div>
+        <div>
+          <label className="block mb-2">Expenses:</label>
+          <input
+            type="number"
+            value={finances.expenses}
+            onChange={(e) => handleUpdate('expenses', e.target.value)}
+            className="border rounded p-2 w-full"
+          />
+        </div>
+        <div>
+          <label className="block mb-2">Budget:</label>
+          <input
+            type="number"
+            value={finances.budget}
+            onChange={(e) => handleUpdate('budget', e.target.value)}
+            className="border rounded p-2 w-full"
+          />
+        </div>
+        <div className="mt-4">
+          <p className="text-lg">Remaining Budget: {finances.budget - finances.expenses}</p>
+        </div>
       </div>
     </div>
   );
