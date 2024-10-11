@@ -1,34 +1,16 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useState } from 'react';
 
-const initialState = {
-  income: [],
-  expenses: [],
-};
-
-export const FinanceContext = createContext(initialState);
-
-const financeReducer = (state, action) => {
-  switch (action.type) {
-    case 'ADD_INCOME':
-      return {
-        ...state,
-        income: [...state.income, action.payload],
-      };
-    case 'ADD_EXPENSE':
-      return {
-        ...state,
-        expenses: [...state.expenses, action.payload],
-      };
-    default:
-      return state;
-  }
-};
+export const FinanceContext = createContext();
 
 export const FinanceProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(financeReducer, initialState);
+  const [finances, setFinances] = useState({
+    income: 0,
+    expenses: 0,
+    budget: 0,
+  });
 
   return (
-    <FinanceContext.Provider value={{ state, dispatch }}>
+    <FinanceContext.Provider value={{ finances, setFinances }}>
       {children}
     </FinanceContext.Provider>
   );
